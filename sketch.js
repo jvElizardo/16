@@ -59,9 +59,9 @@ function setup(){
   nuvemgroup= new Group ();
  trex.setCollider("circle",0,0,45);
 trex.debug=false;
-teladefim=createSprite(200,200,30,80);
+teladefim=createSprite(300,100,30,80);
 teladefim.addImage(gm);
-reiniciar=createSprite(50,20,20,60);
+reiniciar=createSprite(300,150,20,60);
 reiniciar.addImage(restart);
 }
   
@@ -107,8 +107,14 @@ function draw(){
    solo.velocityX=0;
    obstaculogroup.setLifetimeEach(-1);
    nuvemgroup.setLifetimeEach(-1);
+   teladefim.visible=true;
+   reiniciar.visible=true;
+
   }
-  
+   if (mousePressedOver(reiniciar)){
+     reset();
+
+   }
   //registrando a posição y do trex
   //console.log(trex.y);
   
@@ -165,10 +171,21 @@ function obstaculos ()
   case 5: cacto.addImage(obstacle5);
            break; 
     case 6: cacto.addImage(obstacle6);
-           break;
+           break
     default:break;                
   }
   obstaculogroup.add(cacto);
 }
 
+}
+function reset(){
+  
+  estado_de_jogo="inicio";
+  teladefim.visible=false;
+  reiniciar.visible=false;
+  pontos=0;
+  nuvem.velocityX=-3;
+  cacto.velocityX=-6;
+  solo.velocityX=-6;
+  
 }
