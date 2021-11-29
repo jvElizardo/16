@@ -41,16 +41,17 @@ function preload()
 }
 
 function setup(){
-  createCanvas(600,200);
+  createCanvas(windowWidth,windowHeight);
   
   //criando o trex
-  trex = createSprite(50,160,20,50);
+  trex = createSprite(50,height-70,20,50);
   trex.addAnimation("running", trex_running);
-  solo=createSprite(300,180,60,20);
+  trex.addAnimation("collidiu",qwer);
+  solo=createSprite(width/2,height-50,width,20);
   solo.addAnimation("terra",groundImage);
   edges = createEdgeSprites();
-  soloinvisivel=createSprite(40,200,300,20);
-  soloinvisivel.visible=false;
+  soloinvisivel=createSprite(width/2,height-40,width,20);
+  soloinvisivel.visible=true;
   //adicione dimensão e posição ao trex
   trex.scale = 0.5;
   trex.x = 50;
@@ -59,9 +60,9 @@ function setup(){
   nuvemgroup= new Group ();
  trex.setCollider("circle",0,0,45);
 trex.debug=false;
-teladefim=createSprite(300,100,30,80);
+teladefim=createSprite(width/2,height/2,30,80);
 teladefim.addImage(gm);
-reiniciar=createSprite(300,150,20,60);
+reiniciar=createSprite(width/2,height-50,20,60);
 reiniciar.addImage(restart);
 }
   
@@ -84,8 +85,9 @@ function draw(){
     if (solo.x<0){
       solo.x=solo.width/2;
     }
-    if(keyDown("space")&& trex.y>=150 )
+    if((touches.length>0||keyDown("space"))|| trex.y>=height-50 )
   {
+    touches=[]
     trex.velocityY = -10; 
     pulosom.play();
   }
@@ -111,9 +113,9 @@ function draw(){
    reiniciar.visible=true;
 
   }
-   if (mousePressedOver(reiniciar)){
+   if (touches.length>0||mousePressedOver(reiniciar)){
      reset();
-
+     touches=[]
    }
   //registrando a posição y do trex
   //console.log(trex.y);
@@ -135,7 +137,7 @@ function ceu ()
   if (frameCount%100===0)
   {
    
- nuvem=createSprite(400,20,60,20);
+ nuvem=createSprite(400,height-300,60,20);
  nuvem.addImage(imgceu);
  nuvem.velocityX=-3-pontos/100;
  console.log(trex.depth);
@@ -152,7 +154,7 @@ function obstaculos ()
 {
   if(frameCount%50===0)
 {
-  cacto=createSprite(400,180,20,25);
+  cacto=createSprite(400,height-50,20,25);
   cacto.scale=0.5;
   cacto.velocityX=-6-pontos/100;
 
@@ -180,12 +182,11 @@ function obstaculos ()
 }
 function reset(){
   
-  estado_de_jogo="inicio";
+  estado_de_jogo=inicio;
   teladefim.visible=false;
   reiniciar.visible=false;
   pontos=0;
-  nuvem.velocityX=-3;
-  cacto.velocityX=-6;
-  solo.velocityX=-6;
-  
+  obstaculogroup.destroyEach();
+  nuvemgroup.destroyEach();
+  trex.changeAnimation("running", trex_running);
 }
