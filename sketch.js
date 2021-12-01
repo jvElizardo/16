@@ -51,7 +51,7 @@ function setup(){
   solo.addAnimation("terra",groundImage);
   edges = createEdgeSprites();
   soloinvisivel=createSprite(width/2,height-40,width,20);
-  soloinvisivel.visible=true;
+  soloinvisivel.visible=false;
   //adicione dimensão e posição ao trex
   trex.scale = 0.5;
   trex.x = 50;
@@ -78,14 +78,14 @@ function draw(){
     reiniciar.visible=false;
     solo.velocityX=-6-pontos/100;
     
-    pontos=pontos+Math.round(frameCount/60);
+    pontos=pontos+Math.round(getFrameRate()/60);
     if (pontos>0 && pontos%500===0){
       pontuaçaosom.play();
     }
     if (solo.x<0){
       solo.x=solo.width/2;
     }
-    if((touches.length>0||keyDown("space"))|| trex.y>=height-50 )
+    if((touches.length>0||keyDown("space")) && trex.y>=height-75 )
   {
     touches=[]
     trex.velocityY = -10; 
